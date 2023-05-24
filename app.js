@@ -37,7 +37,7 @@ app.use("/principal", principalApiRouter);
 // Routes
 
 app.get("/", (req, res) => {
-    res.send("welcome");
+    res.render("home.ejs");
 });
 
 // Listening

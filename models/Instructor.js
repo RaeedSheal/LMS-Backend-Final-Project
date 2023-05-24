@@ -8,7 +8,6 @@ const InstructorSchema = new Schema(
         userName: { type: String, required: true },
         password: { type: String, required: true, select: false },
         email: String,
-        gender: String,
         courses: [
             {
                 type: mongoose.Schema.Types.ObjectId,

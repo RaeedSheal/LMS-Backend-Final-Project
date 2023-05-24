@@ -26,17 +26,18 @@
 </head>
 <body class="bg-gray-200 text-gray-700 h-screen">
     <div class="bg-gray-800">
-        <%- include('./partials/Instructorheader.ejs') %>
+        <%- include('./partials/Principalheader.ejs') %>
     </div>
     <div class="flex flex-col items-center"> 
         <h1>Courses</h1>
-        <table class="w-96">
+        <table >
             <thead class="bg-gray-50 border-b-2 border-gray-200 ">
                 <tr>
-                    <th class="w-36 p-3 text-sm tracking-wide text-left">Name</th>
+                    <th class="p-3 text-sm tracking-wide text-left">Name</th>
                     <th class="p-3 text-sm tracking-wide text-left">Code</th>
+                    <th class="p-3 text-sm tracking-wide text-left">Instructor</th>
                     <th class="p-3 text-sm tracking-wide text-left">Delete</th>
-                    <th class="p-3 text-sm tracking-wide text-left">Edit</th>
+                    <th class="p-3 text-sm tracking-wide text-left">Assign</th>
                 </tr>
             </thead>
             <tbody class="bg-gray-100 border-b-2">
@@ -44,8 +45,15 @@
                     <tr>
                         <td class="p-3 text-sm text-gray-700"><%= course.name %></td>
                         <td class="p-3 text-sm text-gray-700"><%= course.code %></td>
+                        <td class="p-3 text-sm text-gray-700">
+                            <% if(course.instructor){ %>
+                                <%= course.instructor.name %>
+                            <% }else{ %>
+                                ---
+                            <% } %>
+                        </td>
                         <td class="p-3 text-sm text-gray-700"><a class="p-1.5 text-xs font-medium uppercase tracking-wider text-red-800 bg-red-500 rounded-lg bg-opacity-50" href="/<%= creator %>/delete/<%= course._id %>"> Delete </a></td>
-                        <td class="p-3 text-sm text-gray-700"><a class="p-1.5 text-xs font-medium uppercase tracking-wider text-yellow-800 bg-yellow-500 rounded-lg bg-opacity-50" href="/<%= creator %>/edit/<%= course._id %>"> Edit </a></td>
+                        <td class="p-3 text-sm text-gray-700"><a class="p-1.5 text-xs font-medium uppercase tracking-wider text-yellow-800 bg-yellow-500 rounded-lg bg-opacity-50" href="/<%= creator %>/assign/<%= course._id %>"> Assign </a></td>
                     </tr>
                 <% } %>
             </tbody>

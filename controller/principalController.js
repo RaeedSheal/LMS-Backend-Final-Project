@@ -62,12 +62,22 @@ module.exports = {
         }
     },
     getInstructors: async (req, res) => {
-        const principal = await Instructor.find().populate("courses");
-        res.json({ principal });
+        if (req.cookies.access_token) {
+            const instructors = await Instructor.find().populate("courses");
+            res.render("principalInstructor.ejs", {
+                instructors,
+                creator: "principal",
+            });
+        } else res.redirect("/");
     },
     getCourses: async (req, res) => {
-        const courses = await Course.find();
-        res.render("courses.ejs", { courses, creator: "principal" });
+        if (req.cookies.access_token) {
+            const courses = await Course.find().populate("instructor");
+            res.render("principalCourses.ejs", {
+                courses,
+                creator: "principal",
+            });
+        } else res.redirect("/");
     },
     deleteCourse: async (req, res) => {
         const courseId = req.params.courseId;
@@ -101,6 +111,40 @@ module.exports = {
             { multi: true }
         );
         await course.deleteOne();
+        res.redirect("/principal/courses");
+    },
+    assignInstructorForm: async (req, res) => {
+        if (req.cookies.access_token) {
+            const course = await Course.findById(req.params.courseId);
+            const instructors = await Instructor.find();
+            res.render("assignInstructor.ejs", { course, instructors });
+        } else res.redirect("/");
+    },
+    assignInstructor: async (req, res) => {
+        const instructorId = req.body.courseInstructor;
+        const courseId = req.params.courseId;
+        const course = await Course.findById(courseId);
+        if (course.instructor) {
+            const OldInstructor = await Instructor.findByIdAndUpdate(
+                course.instructor._id,
+                {
+                    $pull: { assignedCourses: courseId },
+                }
+            );
+        }
+        await course.updateOne({
+            instructor: instructorId,
+        });
+        const instructor = await Instructor.findByIdAndUpdate(
+            instructorId,
+            {
+                $addToSet: {
+                    assignedCourses: courseId,
+                },
+            },
+            { new: true }
+        );
+
         res.redirect("/principal/courses");
     },
 };

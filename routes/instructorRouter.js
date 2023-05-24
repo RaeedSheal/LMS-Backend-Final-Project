@@ -11,6 +11,12 @@ router.get("/login", instructorController.LoginForm);
 router.post("/login", instructorController.Login);
 // Show all Courses
 router.get("/courses", cookieAuthentication, instructorController.getCourses);
+router.get(
+    "/assignedCourses",
+    cookieAuthentication,
+    instructorController.getAssignedCourses
+);
+
 // Create Course
 router.get(
     "/createCourse",
@@ -42,6 +48,8 @@ router.post(
     Authorize,
     instructorController.editCourse
 );
-
+router.get("/logout", (req, res) => {
+    res.clearCookie("access_token").redirect("/");
+});
 // Exports
 module.exports = router;

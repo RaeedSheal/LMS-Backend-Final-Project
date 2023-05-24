@@ -80,6 +80,19 @@ module.exports = {
             console.log("Error cannot get courses");
         }
     },
+    getAssignedCourses: async (req, res) => {
+        try {
+            const instructor = await Instructor.findById(
+                res.locals.verifiedToken.id
+            ).populate("assignedCourses");
+            res.render("courses.ejs", {
+                courses: instructor.assignedCourses,
+                creator: "instructor",
+            });
+        } catch (err) {
+            console.log("Error cannot get courses");
+        }
+    },
     //      Create Course for a speicifc instructor
     createCourseForm: (req, res) => {
         if (req.cookies.access_token) res.render("createCourseInst.ejs");
@@ -135,10 +148,11 @@ module.exports = {
         res.redirect("/instructor/courses");
     },
     //      Edit Course for a speicifc instructor
-    editCourseForm: (req, res) => {
-        if (req.cookies.access_token)
-            res.render("editCourseInst.ejs", { courseId: req.params.courseId });
-        else res.send("error");
+    editCourseForm: async (req, res) => {
+        if (req.cookies.access_token) {
+            const course = await Course.findById(req.params.courseId);
+            res.render("editCourseInst.ejs", { course });
+        } else res.redirect("/");
     },
     editCourse: async (req, res) => {
         let name = req.body.name;

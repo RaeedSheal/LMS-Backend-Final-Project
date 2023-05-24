@@ -26,5 +26,21 @@ router.get(
     cookieAuthentication,
     principalController.deleteCourse
 );
+//Assign
+router.get(
+    "/assign/:courseId",
+    cookieAuthentication,
+    principalController.assignInstructorForm
+);
+router.post(
+    "/assign/:courseId",
+    cookieAuthentication,
+    principalController.assignInstructor
+);
+
+//logout
+router.get("/logout", (req, res) => {
+    res.clearCookie("access_token").redirect("/");
+});
 
 module.exports = router;
