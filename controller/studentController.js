@@ -77,6 +77,7 @@ module.exports = {
                     },
                 }
             );
+            await course.updateOne({ $addToSet: { students: student } });
             res.json({ student });
         } catch (err) {
             console.log("Error registering course" + err);
@@ -94,10 +95,27 @@ module.exports = {
                     },
                 }
             );
-            res.json({ student });
+            try {
+                await Course.findByIdAndUpdate(courseId, {
+                    $pull: {
+                        students: student._id,
+                    },
+                });
+            } catch (err) {
+                console.log("Cancel Course err: " + err);
+                res.status(400).json({
+                    errMsg: "Error in finding course",
+                    err,
+                });
+            }
+
+            res.json({
+                successMsg: "You've canceled your registeration in the course",
+                student,
+            });
         } catch (err) {
             console.log("Error cancelling course" + err);
-            res.json({ err });
+            res.json({ errMsg: "Error in cancelling course", err });
         }
     },
 };

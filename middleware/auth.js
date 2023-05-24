@@ -19,6 +19,21 @@ module.exports = {
             res.json({ error: "Not Authenticated" });
         }
     },
+    cookieAuthentication: async (req, res, next) => {
+        const token = req.cookies.access_token;
+        if (!token) {
+            res.json({ error: "No Token" });
+            return;
+        }
+
+        try {
+            res.locals.verifiedToken = jwt.verify(token, JWT_PRIVATE);
+            next();
+        } catch (err) {
+            console.log("Authenticate: " + err);
+            res.json({ error: "Not Authenticated" });
+        }
+    },
     Authorize: async (req, res, next) => {
         try {
             res.locals.instructor = await Instructor.findById(
@@ -31,6 +46,20 @@ module.exports = {
             }
         } catch (err) {
             console.log("error delete course: " + err);
+        }
+    },
+    AuthorizeStudent: async (req, res, next) => {
+        try {
+            res.locals.student = await Student.findById(
+                res.locals.verifiedToken.id
+            );
+            if (res.locals.studnet.courses.includes(req.params.courseId)) {
+                next();
+            } else {
+                res.json({ err: "Not Authorized" });
+            }
+        } catch (err) {
+            console.log("error in authorizing student: " + err);
         }
     },
 };

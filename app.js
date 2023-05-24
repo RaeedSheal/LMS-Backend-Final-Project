@@ -3,17 +3,18 @@ const mongoose = require("mongoose");
 const app = express();
 require("dotenv").config();
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
 // Get routes
 
 const instructorRouter = require("./routes/instructorRouter");
-const courseRouter = require("./routes/courseRouter");
 const studentApiRouter = require("./routes/studentApiRouter");
 
 // Uses
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cookieParser());
 
 // Mongoose
 
@@ -29,7 +30,6 @@ mongoose
 // Use Routes
 
 app.use("/instructor", instructorRouter);
-app.use("/course", courseRouter);
 app.use("/api", studentApiRouter);
 
 // Routes
