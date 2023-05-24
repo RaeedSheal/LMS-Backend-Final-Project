@@ -9,8 +9,6 @@ router.post("/register", instructorController.Register);
 // Log in
 router.get("/login", instructorController.LoginForm);
 router.post("/login", instructorController.Login);
-// Show all instructors
-router.get("/getAll", instructorController.getAll);
 // Show all Courses
 router.get("/courses", cookieAuthentication, instructorController.getCourses);
 // Create Course

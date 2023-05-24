@@ -15,6 +15,9 @@ const InstructorSchema = new Schema(
                 ref: "course",
             },
         ],
+        assignedCourses: [
+            { type: mongoose.Schema.Types.ObjectId, ref: "course" },
+        ],
     },
     { timestamps: true }
 );

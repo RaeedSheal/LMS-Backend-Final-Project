@@ -1,5 +1,6 @@
 const Instructor = require("../models/Instructor");
 const Course = require("../models/Course");
+const Student = require("../models/Student");
 const bcrypt = require("bcrypt");
 const saltRounds = parseInt(process.env.SALT);
 const jwt = require("jsonwebtoken");
@@ -64,10 +65,6 @@ module.exports = {
             res.send({ error: "Incorrect Information" });
         }
     },
-    getAll: async (req, res) => {
-        const instructor = await Instructor.find().populate("courses");
-        res.json({ instructor });
-    },
     // Courses
     //      Get All Courses for a speicif instructor
     getCourses: async (req, res) => {
@@ -75,7 +72,10 @@ module.exports = {
             const instructor = await Instructor.findById(
                 res.locals.verifiedToken.id
             ).populate("courses");
-            res.render("courses.ejs", { courses: instructor.courses });
+            res.render("courses.ejs", {
+                courses: instructor.courses,
+                creator: "instructor",
+            });
         } catch (err) {
             console.log("Error cannot get courses");
         }
@@ -105,13 +105,33 @@ module.exports = {
     },
     //      Delete Course for a speicifc instructor
     deleteCourse: async (req, res) => {
-        const instructor = res.locals.instructor;
         const courseId = req.params.courseId;
-        const deletedCourse = await Course.findByIdAndDelete(courseId);
+        const course = await Course.findByIdAndDelete(courseId);
         // Delete Course From Instructor
-        let index = instructor.courses.indexOf(courseId);
-        instructor.courses.splice(index, 1);
-        await instructor.save();
+        const creator = await Instructor.findByIdAndUpdate(course.creator._id, {
+            $pull: {
+                courses: courseId,
+            },
+        });
+        if (course.instructor) {
+            const instructor = await Instructor.findByIdAndUpdate(
+                course.instructor._id,
+                {
+                    $pull: {
+                        assignedCourses: courseId,
+                    },
+                }
+            );
+        }
+        const student = await Student.updateMany(
+            { courses: courseId },
+            {
+                $pull: { courses: courseId },
+            },
+            { multi: true }
+        );
+        await course.deleteOne();
+
         res.redirect("/instructor/courses");
     },
     //      Edit Course for a speicifc instructor

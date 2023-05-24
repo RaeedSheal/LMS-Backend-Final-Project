@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 
 const instructorRouter = require("./routes/instructorRouter");
 const studentApiRouter = require("./routes/studentApiRouter");
+const principalApiRouter = require("./routes/principalRouter");
 
 // Uses
 
@@ -31,6 +32,7 @@ mongoose
 
 app.use("/instructor", instructorRouter);
 app.use("/api", studentApiRouter);
+app.use("/principal", principalApiRouter);
 
 // Routes
 

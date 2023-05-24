@@ -13,8 +13,8 @@
         <hr>
         <h2><%= course.name %></h2>
         <h3><%= course.code %></h3>
-        <a href="/instructor/delete/<%= course._id %>"> Delete </a>
-        <a href="/instructor/edit/<%= course._id %>"> Edit </a>
+        <a href="/<%= creator %>/delete/<%= course._id %>"> Delete </a>
+        <a href="/<%= creator %>/edit/<%= course._id %>"> Edit </a>
     <% } %>
 </body>
 </html>
