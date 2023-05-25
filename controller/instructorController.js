@@ -32,6 +32,7 @@ module.exports = {
             res.redirect("/instructor/login");
         } catch (err) {
             console.log(err);
+            res.redirect("/instructor/register");
         }
     },
     // Login
@@ -58,11 +59,11 @@ module.exports = {
                     httpOnly: true,
                 }).redirect("/instructor/courses");
             } else {
-                res.send({ error: "Incorrect Information" });
+                res.redirect("/instructor/login");
             }
         } catch (err) {
             console.log("Login Error: " + err);
-            res.send({ error: "Incorrect Information" });
+            res.redirect("/instructor/login");
         }
     },
     // Courses

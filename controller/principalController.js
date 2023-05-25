@@ -54,11 +54,11 @@ module.exports = {
                     httpOnly: true,
                 }).redirect("/principal/courses");
             } else {
-                res.send({ error: "Incorrect Information" });
+                res.redirect("/principal/login");
             }
         } catch (err) {
             console.log("Login Error: " + err);
-            res.send({ error: "Incorrect Information" });
+            res.redirect("/principal/login");
         }
     },
     getInstructors: async (req, res) => {
@@ -72,7 +72,9 @@ module.exports = {
     },
     getCourses: async (req, res) => {
         if (req.cookies.access_token) {
-            const courses = await Course.find().populate("instructor");
+            const courses = await Course.find()
+                .populate("instructor")
+                .populate("creator");
             res.render("principalCourses.ejs", {
                 courses,
                 creator: "principal",
@@ -146,5 +148,11 @@ module.exports = {
         );
 
         res.redirect("/principal/courses");
+    },
+    details: async (req, res) => {
+        const course = await Course.findById(req.params.courseId).populate(
+            "students"
+        );
+        res.render("courseDetails.ejs", { course });
     },
 };

@@ -35,9 +35,11 @@
                 <tr>
                     <th class="p-3 text-sm tracking-wide text-left">Name</th>
                     <th class="p-3 text-sm tracking-wide text-left">Code</th>
+                    <th class="p-3 text-sm tracking-wide text-left">Creator</th>
                     <th class="p-3 text-sm tracking-wide text-left">Instructor</th>
                     <th class="p-3 text-sm tracking-wide text-left">Delete</th>
                     <th class="p-3 text-sm tracking-wide text-left">Assign</th>
+                    <th class="p-3 text-sm tracking-wide text-left">Details</th>
                 </tr>
             </thead>
             <tbody class="bg-gray-100 border-b-2">
@@ -45,6 +47,7 @@
                     <tr>
                         <td class="p-3 text-sm text-gray-700"><%= course.name %></td>
                         <td class="p-3 text-sm text-gray-700"><%= course.code %></td>
+                        <td class="p-3 text-sm text-gray-700"><%= course.creator.name %></td>
                         <td class="p-3 text-sm text-gray-700">
                             <% if(course.instructor){ %>
                                 <%= course.instructor.name %>
@@ -54,6 +57,8 @@
                         </td>
                         <td class="p-3 text-sm text-gray-700"><a class="p-1.5 text-xs font-medium uppercase tracking-wider text-red-800 bg-red-500 rounded-lg bg-opacity-50" href="/<%= creator %>/delete/<%= course._id %>"> Delete </a></td>
                         <td class="p-3 text-sm text-gray-700"><a class="p-1.5 text-xs font-medium uppercase tracking-wider text-yellow-800 bg-yellow-500 rounded-lg bg-opacity-50" href="/<%= creator %>/assign/<%= course._id %>"> Assign </a></td>
+                        <td class="p-3 text-sm text-gray-700"><a class="p-1.5 text-xs font-medium uppercase tracking-wider text-blue-800 bg-blue-500 rounded-lg bg-opacity-50" href="/<%= creator %>/details/<%= course._id %>"> Details </a></td>
+
                     </tr>
                 <% } %>
             </tbody>

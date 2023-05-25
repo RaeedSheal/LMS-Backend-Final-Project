@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses Details</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
+    <script src="https://cdn.tailwindcss.com/3.3.0"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+            fontFamily: {
+                sans: ["Roboto", "sans-serif"],
+                body: ["Roboto", "sans-serif"],
+                mono: ["ui-monospace", "monospace"],
+            },
+            },
+            corePlugins: {
+            preflight: false,
+            },
+        };
+    </script>
+</head>
+<body class="bg-gray-200 text-gray-700 h-screen">
+    <div class="bg-gray-800">
+        <%- include('./partials/Instructorheader.ejs') %>
+    </div>
+    <div class="flex flex-col items-center"> 
+        <h1>Course <%= course.name %></h1>
+        <table class="">
+            <thead class="bg-gray-50 border-b-2 border-gray-200 ">
+                <tr>
+                    <th class="p-3 text-sm tracking-wide text-left">Student Name</th>
+                    <th class="p-3 text-sm tracking-wide text-left">Email</th>
+                </tr>
+            </thead>
+            <tbody class="bg-gray-100 border-b-2">
+                <% for(student of course.students){ %>
+                    <tr>
+                        <td class="p-3 text-sm text-gray-700"><%= student.name %></td>
+                        <td class="p-3 text-sm text-gray-700"><%= student.email %></td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+        
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
+</body>
+</html>

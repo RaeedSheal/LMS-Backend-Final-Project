@@ -37,6 +37,12 @@ router.post(
     cookieAuthentication,
     principalController.assignInstructor
 );
+// Details
+router.get(
+    "/details/:courseId",
+    cookieAuthentication,
+    principalController.details
+);
 
 //logout
 router.get("/logout", (req, res) => {
