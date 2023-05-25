@@ -46,3 +46,12 @@ DB_URL = ""
 SALT = ""
 JWT_PRIVATE = ""
 ```
+
+# UI Screenshots
+
+Home Page
+<img src="./img/homepage.png">
+Login
+<img src="./img/login.png">
+Instructor
+<img src="./img/courses.png">
