@@ -50,8 +50,8 @@ JWT_PRIVATE = ""
 # UI Screenshots
 
 Home Page
-<img src="./img/homepage.png">
+![alt Img](./img/homepage.png)
 Login
-<img src="./img/login.png">
+![alt Img](./img/login.png)
 Instructor
-<img src="./img/courses.png">
+![alt Img](./img/courses.png)
